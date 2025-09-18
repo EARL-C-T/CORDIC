@@ -11,9 +11,9 @@ int flt_limit( float flt_pnt ){
 
 fix to_fix( float flt_pnt ) {
 
-	float fix = (int) round(flt_pnt * ( 1 << FIX_SHIFT )) ;
+	fix fx = (int) round(flt_pnt * ( 1 << FIX_SHIFT )) ;
 
-	return fix ;
+	return fx ;
 
 };
 
@@ -28,7 +28,7 @@ float to_float( fix fix_pnt ) {
 
 
 fix add_check( fix A, fix B){
-	if ( FIX_MAX < A + B & FIX_MIN > A + B  ){
+	if ( FIX_MAX < A + B && FIX_MIN > A + B  ){
 		return A + B ;
 	}else{
 		return -0 ;
@@ -36,13 +36,14 @@ fix add_check( fix A, fix B){
 };
 
 fix sub_check( fix A, fix B){
-	if ( FIX_MAX < A - B & FIX_MIN > A - B){
+	if ( FIX_MAX < A - B && FIX_MIN > A - B){
 		return A-B ;
 	}else{
 		return -0 ;
 	}
 }
 fix fix_mult(fix A,fix B){
-	B = to_float( B );
-
+	A=A/1<<10;
+	B=B/1<<10;
+	return A*B;
 }

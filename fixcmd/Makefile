@@ -1,10 +1,11 @@
-to_float : to_float.c  libCORDIC.a libfixpnt.a 
-	gcc to_float.c -L. -I.. -o to_float -l:libCORDIC.a -l:libfixpnt.a -lm
+LD:= -l:libfixpnt.so -lm
+CFLAGS:= -Wall -Werror -o3
 
-to_fix : to_fix.c libCORDIC.a libfixpnt.a
-	gcc to_fix.c -L. -I.. -o to_fix -l:libCORDIC.a -l:libfixpnt.a -lm
-	
-libCORDIC.a : ../libCORDIC.a
-	cp ../libCORDIC.a . 
-libfixpnt.a : ../libfixpnt.a
-	cp ../libfixpnt.a .
+OUT:= ../x86_64/
+all:$(OUT) $(OUT)to_float  $(OUT)to_fix 
+$(OUT)to_float : to_float.c
+	gcc to_float.c $(CFLAGS) -o $(OUT)to_float $(LD) 
+$(OUT)to_fix : to_fix.c
+	gcc to_fix.c $(CFLAGS) -o $(OUT)to_fix $(LD) 
+$(OUT):
+	mkdir -p $(OUT)``
