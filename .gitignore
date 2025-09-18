@@ -1,0 +1,12 @@
+/build
+CORDIC_test
+.clang-format
+.project
+*.o
+*.a
+fixcmd/to_fix
+fixcmd/to_float
+test_fixpnt
+*/.clangd
+*/.settings
+*/.cproject
