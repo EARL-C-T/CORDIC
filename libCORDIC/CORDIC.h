@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#include "fixpnt.h"
+#include <fixpnt.h>
 
 struct quick_fix_sine_cosine{
 	fix ang ;
@@ -16,7 +16,7 @@ struct quick_fix_sine_cosine{
 typedef struct quick_fix_sine_cosine quiksc ;
 
 //quick version of sin cos expects the input to be in fix format and to be in the first quadrent
-quiksc* quicksc(fix ang);
+quiksc quicksc(fix ang);
 
 struct fix_sine_cosine{
 	int Q ;
@@ -38,22 +38,43 @@ typedef struct fix_sine_cosine fsc ;
  
 int CORDIC_Q( fix ang ) ;
 
-fsc* CORDIC_fsc( float angle_rad);
+fsc CORDIC_fsc( float angle_rad);
 
+fsc CORDIC_fscx( fix ang_rad );
 //prints the sin cos and angle etc in float form this also frees the struct
-void print_rsc( fsc* sc );
 
-fix CORDIC_log( float ex ) ;
+fix CORDIC_logx( fix x );
 
-typedef int64_t dblfix ;//trying this out
+float CORDIC_log( float ex ) ;
+
+fix CORDIC_expx( fix x ) ;
+
+float CORDIC_exp( float ex ) ;
+
+/*typedef int64_t dblfix ;//trying this out
 
 double to_dbl( dblfix fx );
 
 dblfix to_dfix(float fl);
 
 dblfix CORDIC_dblexp(float ex); //see if i can get a larger range since 8.3 is bullshit
+*/
 
-fix CORDIC_exp( float ex ) ;
+float CORDIC_sq( float ex ) ;
+
+fix CORDIC_sqx( fix x ) ;
+
+float CORDIC_sqrt( float ex ) ;
+
+fix CORDIC_sqrtx( fix x ) ;
+
+fix  CORDIC_asinx( fix sin_ang ) ;
+
+float CORDIC_asin( float ex ) ;
+
+fix CORDIC_acosx( fix cos_ang ) ;
+
+float CORDIC_acos( float ex ) ;
 
 #endif /*CORDIC_H_*/
 

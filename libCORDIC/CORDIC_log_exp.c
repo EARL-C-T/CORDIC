@@ -1,7 +1,8 @@
 #include "CORDIC.h"
-#include "fixpnt.h"
 #include "CORDIC_tbls.h"
-
+//inconsitancy when used on cmd line seprtly vs in chain exp $(log 4)= 1.000  while b= log 4\n 4.00= exp b
+//the second being correct I'm really not sure why but may cause issues must work on more latter and test with
+//new sqr and sqrt functions z
 const int le_shift[11]={
 	8,//<<8
 	4,//<<4
@@ -42,11 +43,9 @@ fix k_shift(fix target, int shift ){
 	return target ;
 }
 
-fix CORDIC_exp( float ex ) {
+fix CORDIC_expx(fix x){
 	fix y = FIX_ONE ;
-	fix x ;
-	x = to_fix(ex);
-	for(int i=0 ; i<K_LEN; i++) {
+	for(int i=0 ; i<K_LEN ; i++){
 		if ( x > kz[i] ) {
 			x = x - kz[i];
 			y = k_shift(y,le_shift[i]);
@@ -55,7 +54,31 @@ fix CORDIC_exp( float ex ) {
 		return y ;
 }
 
-fix CORDIC_log( float ex ) {
+
+float CORDIC_exp( float ex ) {
+		return to_float(CORDIC_expx(to_fix(ex))) ;
+}
+
+fix CORDIC_logx(fix x){
+	fix y=0x214564;
+	x=(x>>3);
+		for(int i=0;i<K_LEN;i++){
+		fix xx ;
+		 xx = k_shift( x, le_shift[i]);
+		if( xx < FIX_ONE ){
+			x=xx ;
+			y -=kz[i] ;
+		}
+}
+	y-=(x>>15);
+	return y;
+}
+
+float CORDIC_log(float ex){
+	return to_float(CORDIC_logx(to_fix(ex)));
+
+}
+/* float CORDIC_log( float ex ) {//this is here so i can return cordic log to its old state if i just fucked up 
 	fix y = 0x58b924; //tmp float 246
 	fix x = to_fix(ex)>>8 ; //this is tmp i belive but should work floats to 264
 	for(int i=0;i<K_LEN;i++){
@@ -66,8 +89,8 @@ fix CORDIC_log( float ex ) {
 			y -=kz[i] ;
 		}
 }
-	 y-=x>>15;
-	return y;
+	 y-=(x>>15);
+	return to_float( y);
 }
 double to_dbl(dblfix fx){
 	double dbl =(double)fx/(1<<20);
@@ -93,4 +116,4 @@ dblfix CORDIC_dblexp(float ex){
 		}
 			return y ;
 	}
-
+*/

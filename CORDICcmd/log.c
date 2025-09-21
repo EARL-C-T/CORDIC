@@ -5,7 +5,6 @@
 
 int main(int argc, char** argv ){
 	float ex = strtod( argv[1],NULL ) ;
-	fix log = CORDIC_log( ex ) ;
-	printf( "log %f", to_float(log) ) ;
+	printf( "LOG: %f", CORDIC_log( ex ) ) ;
 	return 0 ;
 }

@@ -40,10 +40,9 @@ int CORDIC_Q( fix ang ){
 
 }
 
-fsc* CORDIC_fsc( float angle_rad ){
+fsc CORDIC_fsc( float angle_rad ){
 
-	
-	fsc* sc = ( fsc* ) malloc(sizeof(fsc)) ;
+
 
 	fix angle_fix = to_fix( angle_rad );
 	int Q = CORDIC_Q(angle_fix) ;
@@ -75,7 +74,7 @@ fsc* CORDIC_fsc( float angle_rad ){
 		z = angle_fix + HAV_PI ;
 		break ;
 	}
-	for( int i = 0; i < 21 ; i++ ){
+	for( int i = 0; i < 20 ; i++ ){
 		fix new_x, new_y ;
 		if( z < 0 ) {
 			new_x = x + (y>>i) ;
@@ -92,25 +91,25 @@ fsc* CORDIC_fsc( float angle_rad ){
 		y = new_y ;
 
 	};
-	sc -> Q = Q ;
+ fsc  sc ;
+	sc.Q = Q ;
 	if(Q == 3 || Q == 1 ){
-	sc -> cos_aprox = x * ax ;
-	sc -> sin_aprox = y * ay ;
+	sc.cos_aprox = x * ax ;
+	sc.sin_aprox = y * ay ;
 	}else{
-	sc -> cos_aprox = y * ax ;
-	sc -> sin_aprox = x * ay ;
+	sc.cos_aprox = y * ax ;
+	sc.sin_aprox = x * ay ;
 }
-	sc -> angle_true = angle_fix ;
-	sc -> angle_rad = angle_rad ;
-	sc -> angle_dif =  z ;
+	sc.angle_true = angle_fix ;
+	sc.angle_rad = angle_rad ;
+	sc.angle_dif =  z ;
 
 	return sc ;
 };
 //this expects that the angle be in the fisrt quadrent so 0 to Pi it also
 //the angle to be entered in fix format
-quiksc*  quicksc( fix ang ){
+quiksc  quicksc( fix ang ){
 
-	quiksc* sc =(quiksc*)malloc(sizeof(quiksc));
 
 	fix x, y, z;
 
@@ -135,10 +134,11 @@ quiksc*  quicksc( fix ang ){
 			y = new_y ;
 
 		};
-	sc -> ang = ang;
-	sc -> sin_aprox = y ;
-	sc -> cos_aprox = x ;
-	sc -> tan_aprox = y/x ;
+	quiksc sc;
+	sc.ang = ang;
+	sc.sin_aprox = y ;
+	sc.cos_aprox = x ;
+	sc.tan_aprox = y/x ;
 	return sc ;
 }
 
