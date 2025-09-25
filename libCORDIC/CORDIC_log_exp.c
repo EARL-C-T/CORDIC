@@ -1,5 +1,6 @@
 #include "CORDIC.h"
 #include "CORDIC_tbls.h"
+#include <fixpnt.h>
 //inconsitancy when used on cmd line seprtly vs in chain exp $(log 4)= 1.000  while b= log 4\n 4.00= exp b
 //the second being correct I'm really not sure why but may cause issues must work on more latter and test with
 //new sqr and sqrt functions z
@@ -30,6 +31,17 @@ const fix kz[11]={
 	16253 ,//0.0155
 	8179 //0.0078
    };
+const fix yst[9]={
+	0,
+	726817,
+	1453635,
+	2180452,
+	2907270,
+	3634087,
+	4360905,
+	5087722,
+	5814540
+ };
 
 fix k_shift(fix target, int shift ){
 	fix t1, t2 ;
@@ -60,17 +72,39 @@ float CORDIC_exp( float ex ) {
 }
 
 fix CORDIC_logx(fix x){
-	fix y=0x214564;
-	x=(x>>3);
-		for(int i=0;i<K_LEN;i++){
-		fix xx ;
+	fix y;
+	if(x<FIX_ONE){
+	
+		y = yst[0] ;
+	}else{
+		int flg = 0;
+		int i = 1;
+		fix xx = x;
+		while(flg < 1 && i < 9){
+			xx=x >> i ;
+			printf("%d %d\n",i,xx);
+			if(xx<FIX_ONE){
+				x = xx ;
+				y = yst[i] ;
+				flg = 1  ;
+			}else{
+				i++ ;
+
+			}
+			
+			}
+	if (flg ==0){
+		return FIX_ONE;
+	}else{
+		for(i=0;i<K_LEN;i++){
 		 xx = k_shift( x, le_shift[i]);
 		if( xx < FIX_ONE ){
 			x=xx ;
 			y -=kz[i] ;
 		}
 }
-	y-=(x>>15);
+}}
+	//y-=(x>>15);
 	return y;
 }
 

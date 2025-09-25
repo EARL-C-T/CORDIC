@@ -1,5 +1,6 @@
 #include "CORDIC.h"
 #include "CORDIC_tbls.h"
+#include <fixpnt.h>
 
 //use this for when quadrent 3 and 4 are repsented by negitive angles
 const fix atanz[20] ={
@@ -30,12 +31,12 @@ int CORDIC_Q( fix ang ){
 		return 1 ;
 	}else if( ang >= HAV_PI  && ang <= FULL_PI  ) {
 		return 2 ;
-	}else if( ang < 0 && ang <= -HAV_PI ) {
+	}else if( ang < 0 && ang >= -HAV_PI ) {
 		return 3 ;
 	}else if( ang < -HAV_PI && ang >= -FULL_PI ){
 		return 4 ;
 	};
-	printf("ERROR Q NOT FOUND\n");
+	printf("ERROR Q NOT FOUND\n ANGLE %d \n", ang);
 	return -0;
 
 }
@@ -102,7 +103,71 @@ fsc CORDIC_fsc( float angle_rad ){
 }
 	sc.angle_true = angle_fix ;
 	sc.angle_rad = angle_rad ;
-	sc.angle_dif =  z ;
+	
+
+	return sc ;
+};
+fsc CORDIC_fscx( fix angle_rad ){
+
+
+
+	
+	int Q = CORDIC_Q(angle_rad) ;
+	fix x, y, z, ax, ay ;
+	x = 0x9cccd ;
+	y = 0 ;
+	z = 0 ;
+	ax = 1 ;
+	ay = 1 ;
+	switch( Q ) {
+	case 1:
+		ax = 1 ;
+		ay = 1 ;
+		z = angle_rad ;
+		break ;
+	case 2:
+		ax =-1 ;
+		ay =1 ;
+		z = angle_rad - HAV_PI ;
+		break ;
+	case 3:
+		ax = -1 ;
+		ay = -1 ;
+		z = angle_rad + FULL_PI ;
+		break ;
+	case 4:
+		ax = 1 ;
+		ay = -1 ;
+		z = angle_rad + HAV_PI ;
+		break ;
+	}
+	for( int i = 0; i < 20 ; i++ ){
+		fix new_x, new_y ;
+		if( z < 0 ) {
+			new_x = x + (y>>i) ;
+			new_y = y - (x>>i) ;
+			z += atanz[i] ;
+		}else{
+
+			new_x = x - (y>>i) ;
+			new_y = y + (x>>i) ;
+			z -= atanz[i] ;
+		};
+
+		x = new_x ;
+		y = new_y ;
+
+	};
+ fsc  sc ;
+	sc.Q = Q ;
+	if(Q == 3 || Q == 1 ){
+	sc.cos_aprox = x * ax ;
+	sc.sin_aprox = y * ay ;
+	}else{
+	sc.cos_aprox = y * ax ;
+	sc.sin_aprox = x * ay ;
+}
+	sc.angle_true = angle_rad ;
 
 	return sc ;
 };

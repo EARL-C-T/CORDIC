@@ -31,9 +31,9 @@ struct fix_sine_cosine{
 typedef struct fix_sine_cosine fsc ;
 
 
-#define HAV_PI 0x1922d1
-#define FULL_PI 0x3245a2
- 
+#define HAV_PI 1647313 
+#define FULL_PI 3294626
+
  
  
 int CORDIC_Q( fix ang ) ;
