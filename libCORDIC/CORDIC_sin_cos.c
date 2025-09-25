@@ -40,40 +40,38 @@ int CORDIC_Q( fix ang ){
 	return -0;
 
 }
+fsc CORDIC_fsc( float fang ){
+	fsc sc;
+	fix ang = to_fix(fang );
+	sc.angle_true = ang ;
+	fix z;
+	fix x = 642253 ;
+	fix y = 0;
+	int ac,as ;
+	if( ang >= 0 && ang < HAV_PI ) {
+		sc.Q = 1 ;
+		z = ang ;
+		as = 1 ;
+		ac = 1 ;
+	}else if( ang >= HAV_PI  && ang <= FULL_PI  ) {
+		sc.Q = 2 ;
+		z =ang - HAV_PI ;
+		ac = -1 ;
+		as = 1 ;
 
-fsc CORDIC_fsc( float angle_rad ){
-
-
-
-	fix angle_fix = to_fix( angle_rad );
-	int Q = CORDIC_Q(angle_fix) ;
-	fix x, y, z, ax, ay ;
-	x = 0x9cccd ;
-	y = 0 ;
-	z = 0 ;
-	ax = 1 ;
-	ay = 1 ;
-	switch( Q ) {
-	case 1:
-		ax = 1 ;
-		ay = 1 ;
-		z = angle_fix ;
-		break ;
-	case 2:
-		ax =-1 ;
-		ay =1 ;
-		z = angle_fix - HAV_PI ;
-		break ;
-	case 3:
-		ax = -1 ;
-		ay = -1 ;
-		z = angle_fix + FULL_PI ;
-		break ;
-	case 4:
-		ax = 1 ;
-		ay = -1 ;
-		z = angle_fix + HAV_PI ;
-		break ;
+	}else if( ang < 0 && ang >= -HAV_PI ) {
+		sc.Q = 4 ;
+		z = ang + HAV_PI ;
+		ac = 1 ;
+		as = -1 ;
+	}else if( ang < -HAV_PI && ang >= -FULL_PI ){
+		sc.Q = 3 ;
+		z = ang + FULL_PI ;
+		ac = -1 ;
+		as = -1 ;
+	}else{
+		printf("ERROR Q NOT FOUND\n ANGLE %d \n", ang);
+		return sc;
 	}
 	for( int i = 0; i < 20 ; i++ ){
 		fix new_x, new_y ;
@@ -92,54 +90,48 @@ fsc CORDIC_fsc( float angle_rad ){
 		y = new_y ;
 
 	};
- fsc  sc ;
-	sc.Q = Q ;
-	if(Q == 3 || Q == 1 ){
-	sc.cos_aprox = x * ax ;
-	sc.sin_aprox = y * ay ;
+	if(sc.Q == 3 || sc.Q == 1 ){
+	sc.cos_aprox = x * ac ;
+	sc.sin_aprox = y * as ;
 	}else{
-	sc.cos_aprox = y * ax ;
-	sc.sin_aprox = x * ay ;
+	sc.cos_aprox = y * ac ;
+	sc.sin_aprox = x * as ;
 }
-	sc.angle_true = angle_fix ;
-	sc.angle_rad = angle_rad ;
-	
 
 	return sc ;
 };
-fsc CORDIC_fscx( fix angle_rad ){
+//if the error prints and sc is returned mostly un initilized then ang was outa range 
+fsc CORDIC_fscx( fix ang ){
+	fsc sc;
+	sc.angle_true = ang ;
+	fix z;
+	fix x = 642253 ;
+	fix y = 0;
+	int ac,as ;
+	if( ang >= 0 && ang < HAV_PI ) {
+		sc.Q = 1 ;
+		z = ang ;
+		as = 1 ;
+		ac = 1 ;
+	}else if( ang >= HAV_PI  && ang <= FULL_PI  ) {
+		sc.Q = 2 ;
+		z =ang - HAV_PI ;
+		ac = -1 ;
+		as = 1 ;
 
-
-
-	
-	int Q = CORDIC_Q(angle_rad) ;
-	fix x, y, z, ax, ay ;
-	x = 0x9cccd ;
-	y = 0 ;
-	z = 0 ;
-	ax = 1 ;
-	ay = 1 ;
-	switch( Q ) {
-	case 1:
-		ax = 1 ;
-		ay = 1 ;
-		z = angle_rad ;
-		break ;
-	case 2:
-		ax =-1 ;
-		ay =1 ;
-		z = angle_rad - HAV_PI ;
-		break ;
-	case 3:
-		ax = -1 ;
-		ay = -1 ;
-		z = angle_rad + FULL_PI ;
-		break ;
-	case 4:
-		ax = 1 ;
-		ay = -1 ;
-		z = angle_rad + HAV_PI ;
-		break ;
+	}else if( ang < 0 && ang >= -HAV_PI ) {
+		sc.Q = 4 ;
+		z = ang + HAV_PI ;
+		ac = 1 ;
+		as = -1 ;
+	}else if( ang < -HAV_PI && ang >= -FULL_PI ){
+		sc.Q = 3 ;
+		z = ang + FULL_PI ;
+		ac = -1 ;
+		as = -1 ;
+	}else{
+		printf("ERROR Q NOT FOUND\n ANGLE %d \n", ang);
+		return sc;
 	}
 	for( int i = 0; i < 20 ; i++ ){
 		fix new_x, new_y ;
@@ -158,16 +150,13 @@ fsc CORDIC_fscx( fix angle_rad ){
 		y = new_y ;
 
 	};
- fsc  sc ;
-	sc.Q = Q ;
-	if(Q == 3 || Q == 1 ){
-	sc.cos_aprox = x * ax ;
-	sc.sin_aprox = y * ay ;
+	if(sc.Q == 3 || sc.Q == 1 ){
+	sc.cos_aprox = x * ac ;
+	sc.sin_aprox = y * as ;
 	}else{
-	sc.cos_aprox = y * ax ;
-	sc.sin_aprox = x * ay ;
+	sc.cos_aprox = y * ac ;
+	sc.sin_aprox = x * as ;
 }
-	sc.angle_true = angle_rad ;
 
 	return sc ;
 };

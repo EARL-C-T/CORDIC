@@ -27,9 +27,9 @@ typedef struct fix_sine_cosine fsc ;
 
 int CORDIC_Q( fix ang ) ;
 
-fsc CORDIC_fsc( float angle_rad);
+fsc CORDIC_fsc( float fang);
 
-fsc CORDIC_fscx( fix ang_rad );
+fsc CORDIC_fscx( fix ang );
 
 fix CORDIC_logx( fix x );
 
