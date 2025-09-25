@@ -1,7 +1,13 @@
 #! /bin/bash
-
-time ./cordic_bm
-
-time ./math_bm
+if [[ -f ./cordic_bm ]]; then
+	time ./cordic_bm
+else
+	time cordic_bm
+fi
+if [[ -f ./math_bm ]]; then
+	time ./math_bm
+else
+	time math_bm
+fi
 
 

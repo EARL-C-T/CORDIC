@@ -7,10 +7,11 @@ CORDICCMD := CORDICcmd/
 OUT:= build/x86_64/
 .PHONY:all clean install
 
-
 all: $(BUILD_DIR) $(BUILD_DIR)$(INC_DIR) $(BUILD_DIR)$(FIXLIB) $(BUILD_DIR)$(CORDICLIB) $(BUILD_DIR)$(CORDICCMD) 
+
 install:$(OUT) INSTALL.sh
-		./INSTALL.sh
+	chmod +x INSTALL.sh
+	./INSTALL.sh
 $(OUT):
 	@echo "IF THIS WAS TRIGURED SOMETHING IS AMISS";
 	mkdir -p $(OUT)
