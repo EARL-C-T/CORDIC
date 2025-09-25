@@ -20,9 +20,8 @@
  * IS NOT CURENTLY A CHECK ON ITS INPUT
  */
 
-#include "CORDIC.h"
-#include "CORDIC_tbls.h"
-#include <fixpnt.h>
+#include "../include/CORDIC.h"
+#include "../include/CORDIC_tbls.h"
 // currently asin seems to work +-0.02 acos works up to
 // somewhere round .6-.7 some kind of overflow I think at least
 // output is -1.7432

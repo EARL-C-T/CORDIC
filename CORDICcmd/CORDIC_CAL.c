@@ -1,5 +1,4 @@
-#include "../libCORDIC/CORDIC.h"
-#include <fixpnt.h>
+#include "../include/CORDIC.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -81,9 +80,6 @@ int main(void){
 			callog(x);
 		}else if(strcmp(cmd,"exp")==0 && x < 8.2 ){
 			calexp(x);		
-		/*}else if(strcmp(cmd,"exp")==0 && x >= 8.2){
-			caldexp(x);
-		*/
 		}else if(strcmp(cmd,"sct")==0){
 			calsct(x);
 		}else if(strcmp(cmd,"sq")==0){

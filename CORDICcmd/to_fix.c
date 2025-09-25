@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <fixpnt.h>
+#include "../include/fixpnt.h"
 
 int main( int argc, char* argv[] ){
 	float fl = atof( argv[1] ) ;

@@ -1,18 +1,19 @@
-LD:=  -L$(OUT) -l:libCORDIC.a -l:libfixpnt.a 
 CFLAGS:= -Wall -Werror -O3
 
 OUT:= ../x86_64/
 LD:=  -L$(OUT) -l:libCORDIC.a -l:libfixpnt.a 
 
-all: $(OUT) $(OUT)exp $(OUT)log $(OUT)sincostan $(OUT)CORDIC_CAL
+all: $(OUT) $(OUT)CORDIC_CAL $(OUT)cordic_bm $(OUT)math_bm $(OUT)to_float $(OUT)to_fix
 $(OUT)CORDIC_CAL: CORDIC_CAL.c
-	gcc CORDIC_CAL.c $(CFLAGS) -o $(OUT)CORDIC_CAL $(LD)
-$(OUT)exp: exp.c
-	gcc exp.c $(CFLAGS) -o $(OUT)exp $(LD)
-$(OUT)log: log.c
-	gcc log.c $(CFLAGS) -o $(OUT)log $(LD)
-$(OUT)sincostan: sincostan.c
-	gcc sincostan.c $(CFLAGS) -o $(OUT)sincostan $(LD)
+	gcc $(CFLAGS) CORDIC_CAL.c  -o $(OUT)CORDIC_CAL $(LD)
+$(OUT)cordic_bm: sincos_cordic.c
+	gcc $(CFLAGS) sincos_cordic.c -o $(OUT)cordic_bm $(LD)
+$(OUT)math_bm: sincos_math.c
+	gcc $(CFLAGS) sincos_math.c -o $(OUT)math_bm -lm
+$(OUT)to_float : to_float.c
+	gcc $(CFLAGS) to_float.c -o $(OUT)to_float $(LD)
+$(OUT)to_fix  : to_fix.c
+	gcc $(CFLAGS) to_fix.c -o $(OUT)to_fix $(LD)
 $(OUT):
 	mkdir -p $(OUT)
 	

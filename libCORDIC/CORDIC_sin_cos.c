@@ -1,6 +1,6 @@
-#include "CORDIC.h"
-#include "CORDIC_tbls.h"
-#include <fixpnt.h>
+#include "../include/CORDIC.h"
+#include "../include/CORDIC_tbls.h"
+
 
 //use this for when quadrent 3 and 4 are repsented by negitive angles
 const fix atanz[20] ={
@@ -171,47 +171,4 @@ fsc CORDIC_fscx( fix angle_rad ){
 
 	return sc ;
 };
-//this expects that the angle be in the fisrt quadrent so 0 to Pi it also
-//the angle to be entered in fix format
-quiksc  quicksc( fix ang ){
 
-
-	fix x, y, z;
-
-	x = 0x9cccd ;
-	y = 0 ;
-	z = ang;
-
-	for( int i = 0; i < 21 ; i++ ){
-			fix new_x, new_y ;
-			if( z < 0 ) {
-				new_x = x + (y>>i) ;
-				new_y = y - (x>>i) ;
-				z += atanz[i] ;
-			}else{
-
-		 		new_x = x - (y>>i) ;
-				new_y = y + (x>>i) ;
-				z -= atanz[i] ;
-			};
-
-			x = new_x ;
-			y = new_y ;
-
-		};
-	quiksc sc;
-	sc.ang = ang;
-	sc.sin_aprox = y ;
-	sc.cos_aprox = x ;
-	sc.tan_aprox = y/x ;
-	return sc ;
-}
-
-
-void print_rsc ( fsc* sc ){
-
-	printf("sin %f \n cos %f  \n angle_in %f \n", to_float( sc -> sin_aprox ), to_float( sc -> cos_aprox ),\
-		 to_float( sc -> angle_true ) );
-	free( sc );
-	return ;
-};

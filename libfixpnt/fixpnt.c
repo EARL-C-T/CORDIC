@@ -1,4 +1,4 @@
-#include "fixpnt.h"
+#include "../include/fixpnt.h"
 
 
 int flt_limit( float flt_pnt ){

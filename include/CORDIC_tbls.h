@@ -3,7 +3,6 @@
 
 #include "CORDIC.h"
 #include "fixpnt.h"
-
 /*header for the various lookup tables required by CORDIC algos
  * gonna try to keep it kinda orginized to the bestish of my
  * abilitys but it will probaly become a mess there is a CORDIC

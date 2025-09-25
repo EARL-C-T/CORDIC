@@ -1,6 +1,6 @@
-#include "CORDIC.h"
-#include "CORDIC_tbls.h"
-#include <fixpnt.h>
+#include "../include/CORDIC.h"
+#include "../include/CORDIC_tbls.h"
+
 //inconsitancy when used on cmd line seprtly vs in chain exp $(log 4)= 1.000  while b= log 4\n 4.00= exp b
 //the second being correct I'm really not sure why but may cause issues must work on more latter and test with
 //new sqr and sqrt functions z
