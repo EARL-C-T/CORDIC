@@ -1,7 +1,8 @@
-LD:= -L../libCORDIC/ -l:libCORDIC.a -l:libfixpnt.so -lm
-CFLAGS:= -Wall -Werror -o3
+LD:=  -L$(OUT) -l:libCORDIC.a -l:libfixpnt.a 
+CFLAGS:= -Wall -Werror -O3
 
 OUT:= ../x86_64/
+LD:=  -L$(OUT) -l:libCORDIC.a -l:libfixpnt.a 
 
 all: $(OUT) $(OUT)exp $(OUT)log $(OUT)sincostan $(OUT)CORDIC_CAL
 $(OUT)CORDIC_CAL: CORDIC_CAL.c

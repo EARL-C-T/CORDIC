@@ -2,7 +2,7 @@
 #define FIXPNT_H_
 
 #include <bits/stdint-intn.h>
-#include <math.h>
+
 
 #define FIX_SHIFT 20
 

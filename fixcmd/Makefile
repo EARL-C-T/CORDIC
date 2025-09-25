@@ -1,4 +1,4 @@
-LD:= -l:libfixpnt.so -lm
+LD:= -l:libfixpnt.so 
 CFLAGS:= -Wall -Werror -o3
 
 OUT:= ../x86_64/

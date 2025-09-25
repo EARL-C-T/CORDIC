@@ -7,8 +7,7 @@ CORDICCMD := CORDICcmd/
 OUT:= build/x86_64/
 .PHONY:all clean install
 
-clean:
-	rm -R $(BUILD_DIR)
+
 all: $(BUILD_DIR) $(BUILD_DIR)$(FIXLIB) $(BUILD_DIR)$(FIXCMD) $(BUILD_DIR)$(CORDICLIB) $(BUILD_DIR)$(CORDICCMD) 
 install:$(OUT) $(OUT)Makefile
 	make -C $(OUT) install
@@ -35,4 +34,6 @@ $(BUILD_DIR)$(FIXLIB):$(FIXLIB) $(BUILD_DIR)
 	
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+clean:
+	rm -R $(BUILD_DIR)
 	
