@@ -48,6 +48,7 @@ If you are using an x86_64 linux system with gcc and make your in luck just run 
 ===============================================================================================================
 ## TODO FUNCTIONS
 ================================================================================================================
+### get hyperbolic functions to work on values of less then 1 number 1 issue
 For great circle navigation ang trig in genral functions I need to do are :
 **atan**
 **atan2**
@@ -59,4 +60,5 @@ For great circle navigation ang trig in genral functions I need to do are :
 ##### Work On Chaining Functions In CORDIC_CAL**
 ##### Also Add Fixpnt Functions To **CORDIC_CAL**
 ##### Make Have **aarch64** target ##### since thats what this is really for
+##### looking into using complex numbers  or just having anything to catch over /under flow
 **possibly other make targets** windows maybe ?
