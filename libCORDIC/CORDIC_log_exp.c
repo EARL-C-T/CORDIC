@@ -72,45 +72,41 @@ float CORDIC_exp( float ex ) {
 }
 
 fix CORDIC_logx(fix x){
-	fix y;
-	if(x<FIX_ONE){
-	
-		y = yst[0] ;
-	}else{
-		int flg = 0;
-		int i = 1;
-		fix xx = x;
-		while(flg < 1 && i < 9){
-			xx=x >> i ;
-			printf("%d %d\n",i,xx);
-			if(xx<FIX_ONE){
-				x = xx ;
-				y = yst[i] ;
-				flg = 1  ;
-			}else{
-				i++ ;
-
-			}
-			
-			}
-	if (flg ==0){
-		return FIX_ONE;
-	}else{
-		for(i=0;i<K_LEN;i++){
-		 xx = k_shift( x, le_shift[i]);
+	fix y ;
+	int shiftflg, i, uoflg ;
+	i = 0 ;
+	shiftflg= 0 ;
+	uoflg=0 ;
+	fix xx = x ;
+	if (x<FIX_ONE){
+		x=x*16;
+		uoflg=1;
+	}
+	while(shiftflg < 1 && i < 9){
+		xx = x >> i ;
 		if( xx < FIX_ONE ){
-			x=xx ;
-			y -=kz[i] ;
-		}
+			x = xx ;
+			y = yst[i] ;
+			shiftflg = 1  ;
+		}else{
+			i++ ;
+			}
+			}
+	for(i=0;i<K_LEN;i++){
+		xx = k_shift( x, le_shift[i]);
+	  if( xx < FIX_ONE ){
+		x=xx ;
+		y -=kz[i] ;
+	}
 }
-}}
-	//y-=(x>>15);
+
+	y-=(x>>15);
+	y=(uoflg==1)?y-LOG_OF_16:y;
 	return y;
 }
 
 float CORDIC_log(float ex){
-	return to_float(CORDIC_logx(to_fix(ex)));
-
+		return to_float(CORDIC_logx(to_fix(ex)));
 }
 /* float CORDIC_log( float ex ) {//this is here so i can return cordic log to its old state if i just fucked up 
 	fix y = 0x58b924; //tmp float 246

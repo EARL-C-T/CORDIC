@@ -24,6 +24,7 @@ typedef struct fix_sine_cosine fsc ;
 
 #define HAV_PI 1647313 
 #define FULL_PI 3294626
+#define LOG_OF_16  2907270
 
 int CORDIC_Q( fix ang ) ;
 
