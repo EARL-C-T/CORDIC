@@ -56,16 +56,23 @@ fix k_shift(fix target, int shift ){
 }
 
 fix CORDIC_expx(fix x){
-	fix y = FIX_ONE ;
+	fix y ;
+	int uoflg=0;
+	if(x<FIX_ONE){
+		x+=2911376;
+		uoflg=1;
+	}
+	y = FIX_ONE ;
 	for(int i=0 ; i<K_LEN ; i++){
 		if ( x > kz[i] ) {
 			x = x - kz[i];
 			y = k_shift(y,le_shift[i]);
 		}
-			};
-		return y ;
+			}
+	y=(uoflg==1)?y>>4:y;
+	return y ;
+		
 }
-
 
 float CORDIC_exp( float ex ) {
 		return to_float(CORDIC_expx(to_fix(ex))) ;
@@ -108,42 +115,3 @@ fix CORDIC_logx(fix x){
 float CORDIC_log(float ex){
 		return to_float(CORDIC_logx(to_fix(ex)));
 }
-/* float CORDIC_log( float ex ) {//this is here so i can return cordic log to its old state if i just fucked up 
-	fix y = 0x58b924; //tmp float 246
-	fix x = to_fix(ex)>>8 ; //this is tmp i belive but should work floats to 264
-	for(int i=0;i<K_LEN;i++){
-		fix xx ;
-		 xx = k_shift( x, le_shift[i]);
-		if( xx < FIX_ONE ){
-			x=xx ;
-			y -=kz[i] ;
-		}
-}
-	 y-=(x>>15);
-	return to_float( y);
-}
-double to_dbl(dblfix fx){
-	double dbl =(double)fx/(1<<20);
-	return dbl;
-}
-dblfix to_dfix(float fl){
-	dblfix dfx=(dblfix)fl*(1<<20);
-	return dfx;
-}
-
-dblfix CORDIC_dblexp(float ex){
-	dblfix y = FIX_ONE ;
-	dblfix x ;
-	x = to_dfix(ex);
-		for(int i=0 ; i<K_LEN; i++) {
-			if ( x > kz[i] ) {
-				x = x - kz[i];
-				y = k_shift(y,le_shift[i]);
-		}
-															
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																			
-			printf("x %ld y %ld  %d  %d \n" ,x ,y,kz[i],le_shift[i] );
-		}
-			return y ;
-	}
-*/
