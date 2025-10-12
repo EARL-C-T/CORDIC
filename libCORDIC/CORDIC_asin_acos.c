@@ -53,29 +53,34 @@ float CORDIC_asin( float ex ){
 }
 
 fix CORDIC_acosx(fix cos_ang){
-	if( cos_ang > 0 && cos_ang < FIX_ONE ){
-		fix x,nx, y, ny, z, t;
-	 
-		t=cos_ang ;
-		x = FIX_ONE ;
+	fix x,nx, y, ny, z;
+	if( cos_ang > 0 ){
+		x = cos_ang;
 		y = 0 ;
 		z = 0 ;
 		for(int i=0 ; i < 20 ;i++){
-			if(x < t){
+			if(x > 0){
+				ny = y + (x>>i);
+				nx = x -(y>>i);
+				z += atanz[i];
+			
+			}else if(x<0){
 				ny = y - (x>>i);
 				nx = x + (y>>i);
 				z -= atanz[i];
-			}else {
-				ny = y + (x>>i);
-				nx = x - (y>>i);
-				z += atanz[i];
-				}
+				
+			}else if(x==0){
+				return HAV_PI-z;
+			}
+					
+				
+			printf("x %d y %d z %d \n",nx,ny,z);
 			y=ny;
 			x=nx;
 			}
-		return z;
-	}else if( cos_ang < 0 && cos_ang > - FIX_ONE ){
-		return HAV_PI + CORDIC_asinx(-cos_ang);
+		return HAV_PI -z;
+	}else if( cos_ang < 0 && cos_ang > -FIX_ONE ){
+		return HAV_PI + CORDIC_asinx(cos_ang);
 
 }else{
 	return 000000000000 ;}
