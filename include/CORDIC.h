@@ -26,6 +26,7 @@ typedef struct float_point_sine_cosine {
 #define HAV_PI 1647313
 #define FULL_PI 3294626
 #define LOG_OF_16 2907270
+#define LOG_OF_64 4360905
 
 fltsc CORDIC_fsc(float ex);
 
@@ -37,6 +38,10 @@ fsc CORDIC_nfsc(
 fix CORDIC_logx(fix x);
 
 float CORDIC_log(float ex);
+
+fix CORDIC_low_logx(fix x);
+
+float CORDIC_low_log(float ex);
 
 fix CORDIC_expx(fix x);
 

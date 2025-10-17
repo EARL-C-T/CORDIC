@@ -10,3 +10,5 @@ test_fixpnt
 */.clangd
 */.settings
 */.cproject
+include/*.gch
+*.geany

@@ -68,20 +68,21 @@ fix CORDIC_expx(fix x) {
 inline float CORDIC_exp(float ex) { return to_float(CORDIC_expx(to_fix(ex))); }
 
 inline fix CORDIC_logx(fix x) {
-  fix y;
+  fix y = 0;
   int shiftflg, i, uoflg;
   i = 0;
   shiftflg = 0;
   uoflg = 0;
-  fix xx = x;
+
   if (x < FIX_ONE) {
     x = x << 4;
     uoflg = 1;
   }
   while (shiftflg < 1 && i < 9) {
-    xx = x >> i;
+    fix xx = x >> i;
     if (xx > FIX_ONE) {
       i++;
+      printf("x %d,xx %d, y %d", x, xx, y);
     } else {
       x = xx;
       y = yst[i];
@@ -90,7 +91,7 @@ inline fix CORDIC_logx(fix x) {
     }
   }
   for (i = 0; i < K_LEN; i++) {
-    xx = k_shift(x, le_shift[i]);
+    fix xx = k_shift(x, le_shift[i]);
     if (xx < FIX_ONE) {
       x = xx;
       y -= kz[i];
@@ -102,4 +103,19 @@ inline fix CORDIC_logx(fix x) {
   return y;
 }
 
-inline float CORDIC_log(float ex) { return to_float(CORDIC_logx(to_fix(ex))); }
+float CORDIC_log(float ex) { return to_float(CORDIC_logx(to_fix(ex))); }
+
+fix CORDIC_low_logx(fix x) { // this is ultra low logx scale 64 times no idea if
+                             // it will work well
+  x = x << 5;
+  fix y = yst[0];
+  for (int i = 0; i < K_LEN; i++) {
+    fix xx = k_shift(x, le_shift[i]);
+    if (xx < FIX_ONE) {
+      x = xx;
+      y -= kz[i];
+    }
+  }
+  return y - LOG_OF_64;
+}
+float CORDIC_low_log(float ex) { return to_float(CORDIC_low_logx(to_fix(ex))); }

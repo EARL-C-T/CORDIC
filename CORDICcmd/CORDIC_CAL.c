@@ -1,6 +1,5 @@
 #include "../include/CORDIC.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 /* CORDIC_CAL
  *
@@ -10,16 +9,22 @@
  * THING ALSO IT'S KINDA FUN I JUST ADDED THE FLOAT RETURN SO IN THE FUTURE I
  * CAN CHAIN  COMMANDS CURENTLY IT JUST DISPLAYS THE RESULT I'VE GOT TO ADD
  * BASIC FUNCTIONS AND FIGURE OUT HOW TO HANDLE OVERFLOW UNDERFLOW AND A FEW
- * OTHER THINGS TO MAKE THIS OF ANY USE ALSO FOR REAL FOR EASE OF USE BOTH INPUT
- * AND OUTPUT OF ALL COMMANDS ARE IN FLOAT SO ITS RELITVLY INEFFICANT I HAVENT
- * BENCHMARKED IT ALSO MANY OF THESE COMMANDS CURRENTLY AS IVE SAID HAVE UNDELT
- * WITH RANGE ISSUES BOTH ACURACY AND OVER / UNDER FLOWS ALSO SOME LIKE ACTUAL
- * RANGE CHECKS THAT I HAVEN'T EVEN KINDA DELT WITH AND IN SOME CASES MAY NEVER
- * DEAL WITH BUT REGARDLESS HERE YA GO
+ * OTHER THINGS I'M GOING TO AD LOGRTHMIC DIV AND MULT INPUT OUTPUT GOING TO BE
+ * FLOAT FOR EASE OF USE TO MAKE THIS OF ANY USE ALSO FOR REAL FOR EASE OF USE
+ * BOTH INPUT AND OUTPUT OF ALL COMMANDS ARE IN FLOAT SO ITS RELITVLY INEFFICANT
+ * I HAVENT BENCHMARKED IT ALSO MANY OF THESE COMMANDS CURRENTLY AS IVE SAID
+ * HAVE UNDELT WITH RANGE ISSUES BOTH ACURACY AND OVER / UNDER FLOWS ALSO SOME
+ * LIKE ACTUAL RANGE CHECKS THAT I HAVEN'T EVEN KINDA DELT WITH AND IN SOME
+ * CASES MAY NEVER DEAL WITH BUT REGARDLESS HERE YA GO
  */
 float callog(float x) {
   float r = CORDIC_log(x);
   printf("LOG: %.3f \n", r);
+  return r;
+}
+float callowlog(float x) {
+  float r = CORDIC_low_log(x);
+  printf("LLOG: %.3f \n", r);
   return r;
 }
 float calexp(float x) {
@@ -72,10 +77,11 @@ int main(void) {
          "FUNCTIONS IM WORKING ON\n  PROGRAMED BY: EARL T {ET}\n");
   int q = 0;
   do {
-    char *cmd =
-        (char *)malloc(sizeof(char[20])); // the function you want to execute
-    float x;                              // the input ang ect in float format
-    scanf("%s %f", cmd, &x);
+    char cmd[30]; // the function you want to execute
+
+    float x; // the input ang ect in float format
+    scanf("%29s %f", cmd, &x);
+
     if (strcmp(cmd, "log") == 0) {
       callog(x);
     } else if (strcmp(cmd, "exp") == 0 && x < 8.2) {
@@ -90,6 +96,8 @@ int main(void) {
       calasin(x);
     } else if (strcmp(cmd, "acos") == 0) {
       calacos(x);
+    } else if (strcmp(cmd, "llog") == 0) {
+      callowlog(x);
     } else if (strcmp(cmd, "help") == 0) {
       FILE *f = fopen("help.txt", "r");
       if (f == NULL) {
@@ -102,7 +110,7 @@ int main(void) {
       }
     } else if (strcmp(cmd, "quit") == 0) {
       q = 1;
-    } else if (cmd) {
+    } else {
       printf("NOT A KNOWN COMMAND TYPE \n HELP TO SEE LIST OF COMMANDS \n");
     }
   } while (q == 0);
